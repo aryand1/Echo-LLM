@@ -772,7 +772,7 @@ If you use EchoLLM in your research, please cite:
 
 ```bibtex
 @inproceedings{echollm2025,
-  title={EchoLLM: Embedding Clarity for Hallucination Optimization with Large Language Models},
+  title={EchoLLM: Evidence-Checked Hierarchical Ontology},
   author={Dalal, Aryan Singh and McGinty, Hande},
   booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
   year={2025},
