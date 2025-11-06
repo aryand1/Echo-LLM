@@ -1,4 +1,4 @@
-# EchoLLM: Evidence-Grounded Ontology Construction from Text 🔍
+# EchoLLM: Evidence-Checked Hierarchical Ontology 🔍
 
 **Embedding Clarity for Hallucination Optimization with Large Language Models**
 
@@ -27,7 +27,7 @@ EchoLLM implements a five-stage pipeline that transforms raw text into verified 
 ```
 Raw Text
    ↓
-[1] Preprocessing (Minimal Triad)
+[1] Preprocessing 
    ↓
 [2] Triple Extraction (LLM-based)
    ↓
@@ -68,26 +68,16 @@ Output:
   • Clause 2: "Urban agriculture benefits biodiversity"
 ```
 
-### 1.3 Linguistic Weighting
-
-The system assigns numeric weights to tokens based on their grammatical importance, guiding the LLM toward "fact-rich phrases." This uses Part-of-Speech (POS) tagging and syntactic dependency parsing via Stanza.
-
-**Weight Calculation Formula:**
-```
-base_weight = 0.5
-bonus for nouns/verbs/adjectives = +0.3
-bonus for syntactic roles (nsubj, dobj) = +0.2
-maximum weight = 1.0
 ```
 
 **Example Token Table (Urban Agriculture sentence):**
 
-| Token | POS | Syntactic Role | Weight |
+| Token | POS | Syntactic Role 
 |-------|-----|---|--------|
-| Urban | ADJ | amod | 1.00 |
-| agriculture | NOUN | nsubj | 1.00 |
-| provides | VERB | root | 0.80 |
-| food | NOUN | obj | 0.80 |
+| Urban | ADJ | amod | 
+| agriculture | NOUN | nsubj | 
+| provides | VERB | root | 
+| food | NOUN | obj | 
 
 These weights are passed to the LLM as context, nudging it to focus on informationally dense portions of the text. This lightweight preprocessing balances data quality assurance without over-engineering.
 
@@ -108,54 +98,9 @@ EchoLLM evaluated four prominent 7-8B parameter language models to identify the 
 
 While Mistral-7B matched Llama3-8B numerically (both F1 = 0.45), **Llama3-8B was selected for superior instruction adherence**—a qualitative factor crucial for downstream verification. The model consistently produced clean, structured output without extraneous text, reducing parsing errors and enabling more reliable verification.
 
-### Extraction Prompt Architecture
 
-The LLM receives a structured, prescriptive directive that enforces exact formatting requirements to minimize parsing errors:
-
-```python
-messages = [
-    {
-        "role": "system", 
-        "content": "You are an expert on Knowledge graph and Ontologies formation. "
-                   "Respond ONLY with the requested structured data, do not include "
-                   "conversational text or explanations."
-    },
-    {
-        "role": "user", 
-        "content": f"""From the following text: '{input_text}'
-
-Identify triples representing factual relationships in the format [Subject, Predicate, Object].
-
-Output ONLY the triples, following this exact structure:
-1. Start the response with the line: Triples:
-2. List each triple on a new line.
-3. Each triple line MUST start with '- ' (dash and space).
-4. Each triple MUST be enclosed in exactly one pair of square brackets `[]`.
-5. Inside the brackets, the Subject, Predicate, and Object MUST be separated by a comma and a space `, `.
-
-Example format:
-Triples:
-- [Subject1, Predicate1, Object1]
-- [Subject2, Predicate2, Object2]
-
-Do NOT include any text before "Triples:" or after the list of triples."""
-    }
-]
 ```
 
-This prompt engineering approach achieves two objectives:
-1. **Constraint enforcement**: Explicit formatting rules prevent malformed output
-2. **Minimal reasoning**: Avoids cross-sentence inference, focusing on atomic fact extraction
-
-**Example Output:**
-```
-Input: "Urban agriculture provides food and benefits biodiversity"
-
-Output:
-Triples:
-- [Urban agriculture, provides, food]
-- [Urban agriculture, benefits, biodiversity]
-```
 
 ### Relaxed Matching Criteria
 
