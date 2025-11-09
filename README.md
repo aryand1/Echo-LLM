@@ -815,12 +815,8 @@ Kansas State University
 
 ## Additional Resources
 
-- 📄 **Full Paper**: [Link to AAAI published version]
+- 📄 **Full Paper**: [Link to be soon updated with published version]
 - 📊 **CaRB Benchmark**: [https://github.com/dair-iitd/CaRB](https://github.com/dair-iitd/CaRB)
-- 📖 **Extended Technical Report**: [Link to detailed methodology documentation]
-- 🔗 **Related Work**: See `docs/related_work.md` for positioning within RAG and ontology engineering literature
-- 🎥 **Video Tutorial**: [Link to walkthrough demonstration]
-- 💬 **Discussion Forum**: [Link to community discussion]
 
 ---
 
